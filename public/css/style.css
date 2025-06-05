@@ -1,0 +1,220 @@
+body{
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container{
+    flex: 1;
+}
+
+.navbar{
+    height: 5 rem;
+    background-color: white;
+}
+
+.fa-compass{
+    color : #fe424d;
+    font-size: 2rem;
+}
+
+.nav-link{
+    color : #222222 !important;
+}
+
+/* FOOTER */
+.f-info-links a{
+    text-decoration: none;
+    color: #222222;
+}
+
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+
+.f-info-links, .f-info-socials, .f-info-brand{
+    width: 100%;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.f-info-socials i{
+    font-size: 1rem;
+    margin-right: 1rem;
+}
+
+.f-info{
+    text-align: center;
+    height: 5rem;
+    background-color: rgba(152, 150, 150, 0.877);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+}
+
+
+/* Cards */
+
+.listing-card{
+    border: none !important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.rounded-bottom-img{
+    border-radius: 1rem !important ;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+
+.card-text{
+     font-weight: 400 !important;
+}
+
+.listing-link{
+    text-decoration: none;
+}
+
+/* CARD EFFECT */
+
+
+.card-img-overlay{
+   opacity: 0;
+}
+
+
+.card-img-overlay:hover{
+   opacity: 0.2;
+   background-color: white;
+}
+
+.add-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+
+/* Edit Button */
+.edit-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+
+/* SHOW IMAGE */
+
+.show-img{
+    height: 30vh;
+    border-radius: 1rem;
+}
+
+.btns{
+    display: flex;
+}
+
+.show-card{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Add this to your CSS file */
+#map {
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.maptiler-marker {
+    cursor: pointer;
+}
+
+
+/* Geocoding Styles - Add to your existing style.css */
+
+.geocoding-container {
+    position: relative;
+    width: 100%;
+}
+
+.geocoding-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 0 0 0.375rem 0.375rem;
+    max-height: 250px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.geocoding-result-item {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.geocoding-result-item:hover {
+    background-color: #f8f9fa;
+}
+
+.geocoding-result-item:last-child {
+    border-bottom: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .geocoding-results {
+        max-height: 200px;
+    }
+}
+
+/* Custom scrollbar for geocoding results */
+.geocoding-results::-webkit-scrollbar {
+    width: 6px;
+}
+
+.geocoding-results::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.geocoding-results::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.geocoding-results::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.no-listing-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+}
+
+.no-listing-container {
+    text-align: center;
+}
+
+
+@media (max-width: 768px) {
+  .tax-toggle {
+    display: none;
+  }
+}

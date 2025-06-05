@@ -1,0 +1,190 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+  <style>
+    .scroll-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 1rem 2rem;
+      gap: 1rem;
+    }
+
+    .scroll-container {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 1.5rem;
+      flex: 1;
+      padding: 1rem 0;
+      white-space: nowrap;  
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none;  /* IE and Edge */
+    }
+    
+    .scroll-container::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, and Opera */
+    }
+
+    .filter {
+      text-align: center;
+      opacity: 0.7;
+      flex: none;
+    }
+
+    .filter:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+
+    .filter a {
+      text-decoration: none !important;
+      color: inherit !important;
+    }
+    
+    .filter a:hover {
+      text-decoration: none !important;
+      color: inherit !important;
+    }
+    
+    .filter a:visited {
+      color: inherit !important;
+    }
+
+    .filter p {
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+    }
+
+    .scroll-btn {
+      flex: none;
+      background: white;
+      border: none;
+      font-size: 0.9rem;
+      padding: 0.4rem 0.7rem;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      z-index: 2;
+      opacity: 0.5;
+    }
+
+    .scroll-btn:hover {
+      opacity: 1;
+    }
+
+    .tax-toggle {
+      flex: none;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+    }
+
+    .tax-info {
+      display: none;
+    }
+
+    /* Hide tax toggle on smaller screens */
+    @media (max-width: 768px) {
+      .tax-toggle {
+        display: none !important;
+      }
+    }
+  </style>
+
+  <div class="scroll-wrapper">
+    <button class="scroll-btn left" id="leftBtn" onclick="scrollLeft()" style="display: none;"><i class="fa-solid fa-arrow-left-long"></i></button>
+
+    <div id="filters" class="scroll-container">
+      <div class="filter"><a href="/listings?category=trending"><div><i class="fa-solid fa-fire"></i></div><p>Trending</p></a></div>
+      <div class="filter"><a href="/listings?category=rooms"><div><i class="fa-solid fa-bed"></i></div><p>Rooms</p></a></div>
+      <div class="filter"><a href="/listings?category=iconic cities"><div><i class="fa-solid fa-mountain-city"></i></div><p>Iconic cities</p></a></div>
+      <div class="filter"><a href="/listings?category=mountains"><div><i class="fa-solid fa-mountain"></i></div><p>Mountains</p></a></div>
+      <div class="filter"><a href="/listings?category=beach"><div><i class="fa-solid fa-umbrella-beach"></i></div><p>Beach</p></a></div>
+      <div class="filter"><a href="/listings?category=amazing pools"><div><i class="fa-solid fa-person-swimming"></i></div><p>Amazing Pools</p></a></div>
+      <div class="filter"><a href="/listings?category=camping"><div><i class="fa-solid fa-campground"></i></div><p>Camping</p></a></div>
+      <div class="filter"><a href="/listings?category=arctic"><div><i class="fa-solid fa-snowflake"></i></div><p>Arctic</p></a></div>
+      <div class="filter"><a href="/listings?category=doms"><div><i class="fa-solid fa-igloo"></i></div><p>Doms</p></a></div>
+    </div>
+
+    <button class="scroll-btn right" id="rightBtn" onclick="scrollRight()"><i class="fa-solid fa-arrow-right-long"></i></button>
+
+    <div class="tax-toggle">
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+        <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+      </div>
+    </div>
+  </div>
+
+  <% if (allListings.length === 0) { %>
+    <div class="no-listing-wrapper">
+      <div class="no-listing-container">
+        <div class="text-center">
+          <h4>No listings found<% if (selectedCategory) { %> in "<%= selectedCategory %>"<% } %>.</h4>
+          <p><a href="/listings/new" class="btn btn-danger mt-2" style="background-color: #fe424d;">Please add a listing</a></p>
+        </div>
+      </div>
+    </div>
+  <% } else { %>
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+      <% for (let listing of allListings) { %>
+        <a href="/listings/<%= listing._id %>" class="listing-link">
+          <div class="card col listing-card">
+            <img src="<%= listing.image.url %>" class="card-img-top rounded-bottom-img" alt="listing_image" style="height: 20rem">
+            <div class="card-img-overlay">Free</div>
+            <div class="card-body">
+              <p class="card-text">
+                <b><%= listing.title %></b><br>
+                ₹ <%= listing.price.toLocaleString("en-IN") %> /night
+                <i class="tax-info">&nbsp; &nbsp; +18% GST</i>
+              </p>
+            </div>
+          </div>
+        </a>
+      <% } %>
+    </div>
+  <% } %>
+
+  <script>
+    let taxSwitch = document.getElementById("switchCheckDefault");
+    let filtersContainer = document.getElementById("filters");
+    let leftBtn = document.getElementById("leftBtn");
+    let rightBtn = document.getElementById("rightBtn");
+
+    // Tax switch functionality
+    taxSwitch.addEventListener("click", () => {
+      let taxInfo = document.getElementsByClassName("tax-info");
+      for (let info of taxInfo) {
+        info.style.display = info.style.display !== "inline" ? "inline" : "none";
+      }
+    });
+
+    // Update arrow visibility based on scroll position
+    function updateArrows() {
+      const scrollLeft = filtersContainer.scrollLeft;
+      const maxScroll = filtersContainer.scrollWidth - filtersContainer.clientWidth;
+      
+      // Show left arrow if scrolled right
+      leftBtn.style.display = scrollLeft > 0 ? "block" : "none";
+      
+      // Show right arrow if not at the end
+      rightBtn.style.display = scrollLeft < maxScroll ? "block" : "none";
+    }
+
+    // Listen for scroll events
+    filtersContainer.addEventListener("scroll", updateArrows);
+
+    // Initialize arrow visibility on page load
+    window.addEventListener("load", updateArrows);
+
+    function scrollLeft() {
+      filtersContainer.scrollBy({ left: -300, behavior: 'smooth' });
+      setTimeout(updateArrows, 300); // Update after scroll animation
+    }
+
+    function scrollRight() {
+      filtersContainer.scrollBy({ left: 300, behavior: 'smooth' });
+      setTimeout(updateArrows, 300); // Update after scroll animation
+    }
+  </script>
+</body>
