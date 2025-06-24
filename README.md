@@ -38,3 +38,6 @@ WanderLust is a full-stack travel/campground web application where users can bro
    ```bash
    git clone https://github.com/nitishh07/WanderLust.git
    cd WanderLust
+   Install dependencies
+2. npm install
+
